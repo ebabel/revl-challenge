@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 
 
@@ -41,6 +42,7 @@ public class MainActivity extends Activity {
     };
     private String searchString = KITEBOARDING;
     private boolean includeAnimated;
+    private Disposable serviceDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class MainActivity extends Activity {
     }
 
     private void loadImages(int offset) {
-        RevlApplication.getInstance().getApi()
+        serviceDisposable = RevlApplication.getInstance().getApi()
                 .searchForImages(
                         searchString,
                         offset,
@@ -65,7 +67,7 @@ public class MainActivity extends Activity {
                         includeAnimated ? ANIMATED_IMAGES : null,
                         SAFE_SEARCH)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<Images>() {
+                .subscribeWith(new DisposableSingleObserver<Images>() {
                     @Override
                     public void onSuccess(@NonNull Images response) {
                         Log.d(TAG, "MainActivity.onSuccess response = " + response);
@@ -76,8 +78,8 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                    e.printStackTrace();
-                }
+                        e.printStackTrace();
+                    }
                 });
     }
 
@@ -125,4 +127,11 @@ public class MainActivity extends Activity {
         })
         .show();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        serviceDisposable.dispose();
+    }
+
 }
