@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,10 +26,8 @@ public class FullScreenImageActivity extends Activity {
         ButterKnife.bind(this);
 
         String imageUrl = getIntent().getStringExtra(URL_OF_IMAGE);
-        Picasso picasso = Picasso.with(this);
-        picasso
-                .load(imageUrl)
-                .placeholder(R.drawable.animated_progress)
+        Glide.with(this).load(imageUrl)
+//                .placeholder(R.drawable.animated_progress)
                 .into(imageView);
     }
 }

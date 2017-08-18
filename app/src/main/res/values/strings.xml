@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RevlChallenge</string>
+    <string name="change_search_string">Change Search String</string>
 </resources>

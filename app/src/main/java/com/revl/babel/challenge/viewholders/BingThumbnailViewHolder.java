@@ -5,8 +5,8 @@ import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.revl.babel.challenge.model.Image;
-import com.squareup.picasso.Picasso;
 
 public class BingThumbnailViewHolder extends RecyclerView.ViewHolder {
 
@@ -24,7 +24,7 @@ public class BingThumbnailViewHolder extends RecyclerView.ViewHolder {
 
         thumbnailView.setBackgroundColor(Color.parseColor("#" + image.accentColor()));
 
-        Picasso.with(context)
+        Glide.with(context)
                 .load(image.thumbnailUrl())
                 .into(thumbnailView);
 
