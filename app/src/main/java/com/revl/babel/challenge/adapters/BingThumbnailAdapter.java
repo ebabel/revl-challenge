@@ -1,5 +1,7 @@
 package com.revl.babel.challenge.adapters;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.revl.babel.challenge.FullScreenImageActivity;
 import com.revl.babel.challenge.R;
 import com.revl.babel.challenge.model.Image;
 import com.revl.babel.challenge.viewholders.BingThumbnailViewHolder;
@@ -15,11 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class BingThumbnailAdapter extends RecyclerView.Adapter<BingThumbnailViewHolder> {
+public abstract class BingThumbnailAdapter extends RecyclerView.Adapter<BingThumbnailViewHolder> {
 
     private static final String TAG = BingThumbnailAdapter.class.getSimpleName();
 
     private List<Image> images = new ArrayList<>();
+    private Activity activity;
+
+    public BingThumbnailAdapter(Activity activity) {
+
+        this.activity = activity;
+    }
 
     @Override
     public BingThumbnailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -38,10 +47,22 @@ public class BingThumbnailAdapter extends RecyclerView.Adapter<BingThumbnailView
                 showFullImage(position);
             }
         });
+
+
+        if ((position >= getItemCount() - 1)) {
+            loadMoreItems(getItemCount());
+        }
     }
 
+    protected abstract void loadMoreItems(int offset);
+
     private void showFullImage(int position) {
-        Log.d(TAG, "BingThumbnailAdapter.showFullImage images = " + images.get(position));
+        Image image = images.get(position);
+        Log.d(TAG, "BingThumbnailAdapter.showFullImage images = " + image);
+        Intent intent = new Intent(activity, FullScreenImageActivity.class);
+        intent.putExtra(FullScreenImageActivity.THUMBNAIL_OF_IMAGE, image.thumbnailUrl());
+        intent.putExtra(FullScreenImageActivity.URL_OF_IMAGE, image.imageUrl());
+        activity.startActivity(intent);
     }
 
     @Override

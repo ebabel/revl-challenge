@@ -19,9 +19,18 @@ import io.reactivex.observers.DisposableSingleObserver;
 public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int COUNT = 50;
+    private static final String SAFE_SEARCH = "Moderate";
+    private static final String MARKET_EN_US = "en-us";
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    private BingThumbnailAdapter recyclerViewAdapter = new BingThumbnailAdapter();
+    private BingThumbnailAdapter recyclerViewAdapter = new BingThumbnailAdapter(this) {
+
+        @Override
+        protected void loadMoreItems(int offset) {
+            loadImages(offset);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +41,18 @@ public class MainActivity extends Activity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerView.setAdapter(recyclerViewAdapter);
 
+
+        loadImages(0);
+    }
+
+    private void loadImages(int offset) {
         RevlApplication.getInstance().getApi()
-                .searchForImages("snowboarding")
+                .searchForImages(
+                        "kiteboarding",
+                        offset,
+                        COUNT,
+                        MARKET_EN_US,
+                        SAFE_SEARCH)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<Images>() {
                     @Override
@@ -49,7 +68,5 @@ public class MainActivity extends Activity {
                     e.printStackTrace();
                 }
                 });
-
-
     }
 }

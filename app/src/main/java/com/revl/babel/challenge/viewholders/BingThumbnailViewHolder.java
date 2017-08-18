@@ -2,7 +2,6 @@ package com.revl.babel.challenge.viewholders;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
@@ -22,9 +21,11 @@ public class BingThumbnailViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(Image image) {
         Context context = itemView.getContext();
+
+        thumbnailView.setBackgroundColor(Color.parseColor("#" + image.accentColor()));
+
         Picasso.with(context)
-                .load(image.imageUrl())
-                .placeholder(new ColorDrawable(Color.parseColor("#"+image.accentColor())))
+                .load(image.thumbnailUrl())
                 .into(thumbnailView);
 
     }
