@@ -1,7 +1,9 @@
 package com.revl.babel.challenge.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -15,6 +17,8 @@ import java.util.List;
 
 public class BingThumbnailAdapter extends RecyclerView.Adapter<BingThumbnailViewHolder> {
 
+    private static final String TAG = BingThumbnailAdapter.class.getSimpleName();
+
     private List<Image> images = new ArrayList<>();
 
     @Override
@@ -25,8 +29,19 @@ public class BingThumbnailAdapter extends RecyclerView.Adapter<BingThumbnailView
     }
 
     @Override
-    public void onBindViewHolder(BingThumbnailViewHolder holder, int position) {
+    public void onBindViewHolder(BingThumbnailViewHolder holder, final int position) {
         holder.bind(images.get(position));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFullImage(position);
+            }
+        });
+    }
+
+    private void showFullImage(int position) {
+        Log.d(TAG, "BingThumbnailAdapter.showFullImage images = " + images.get(position));
     }
 
     @Override
