@@ -13,7 +13,6 @@ import butterknife.ButterKnife;
 
 public class FullScreenImageActivity extends Activity {
 
-
     public static final String URL_OF_IMAGE = "URL_OF_IMAGE";
     public static final String THUMBNAIL_OF_IMAGE = "THUMB_OF_IMAGE";
     @BindView(R.id.full_screen_image) ImageView imageView;

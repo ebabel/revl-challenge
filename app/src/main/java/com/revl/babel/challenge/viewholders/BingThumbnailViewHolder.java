@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso;
 public class BingThumbnailViewHolder extends RecyclerView.ViewHolder {
 
 
-    ImageView thumbnailView;
+    private ImageView thumbnailView;
 
     public BingThumbnailViewHolder(ImageView itemView) {
         super(itemView);

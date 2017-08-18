@@ -68,7 +68,7 @@ public abstract class BingThumbnailAdapter extends RecyclerView.Adapter<BingThum
     private void copyImageUrlToClipboard(int position) {
         Image image = images.get(position);
         ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText(" Image URL", image.imageUrl());
+        ClipData clip = ClipData.newPlainText("Image URL", image.imageUrl());
         clipboard.setPrimaryClip(clip);
 
     }
