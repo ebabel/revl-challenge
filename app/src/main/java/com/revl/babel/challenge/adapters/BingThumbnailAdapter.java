@@ -1,6 +1,9 @@
 package com.revl.babel.challenge.adapters;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,7 +41,7 @@ public abstract class BingThumbnailAdapter extends RecyclerView.Adapter<BingThum
     }
 
     @Override
-    public void onBindViewHolder(BingThumbnailViewHolder holder, final int position) {
+    public void onBindViewHolder(final BingThumbnailViewHolder holder, final int position) {
         holder.bind(images.get(position));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -48,11 +51,28 @@ public abstract class BingThumbnailAdapter extends RecyclerView.Adapter<BingThum
             }
         });
 
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                copyImageUrlToClipboard(position);
+                return true;
+            }
+        });
+
 
         if ((position >= getItemCount() - 1)) {
             loadMoreItems(getItemCount());
         }
     }
+
+    private void copyImageUrlToClipboard(int position) {
+        Image image = images.get(position);
+        ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(" Image URL", image.imageUrl());
+        clipboard.setPrimaryClip(clip);
+
+    }
+
 
     protected abstract void loadMoreItems(int offset);
 
