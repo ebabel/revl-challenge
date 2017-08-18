@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.revl.babel.challenge.adapters.BingThumbnailAdapter;
 import com.revl.babel.challenge.model.Images;
@@ -39,6 +40,7 @@ public class MainActivity extends Activity {
         }
     };
     private String searchString = KITEBOARDING;
+    private boolean includeAnimated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class MainActivity extends Activity {
                         offset,
                         COUNT,
                         MARKET_EN_US,
-                        ANIMATED_IMAGES,
+                        includeAnimated ? ANIMATED_IMAGES : null,
                         SAFE_SEARCH)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<Images>() {
@@ -90,12 +92,21 @@ public class MainActivity extends Activity {
 
         switch (item.getItemId()) {
             case R.id.change_search_string:
-
                 showEditSearchDialog();
+                return true;
+            case R.id.toggle_animated:
+                toggleAnimated();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void toggleAnimated() {
+        includeAnimated = !includeAnimated;
+        Toast.makeText(this, includeAnimated ? "Search includes animations" : "Normal photos", Toast.LENGTH_SHORT).show();
+        recyclerViewAdapter.getImages().clear();
+        loadImages(0);
     }
 
     private void showEditSearchDialog() {

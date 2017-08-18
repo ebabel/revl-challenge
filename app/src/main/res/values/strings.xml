@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">RevlChallenge</string>
     <string name="change_search_string">Change Search String</string>
+    <string name="toggle_animated">Toggle Animated Images</string>
 </resources>
