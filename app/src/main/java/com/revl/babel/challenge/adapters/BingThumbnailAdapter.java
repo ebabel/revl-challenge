@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.revl.babel.challenge.FullScreenImageActivity;
 import com.revl.babel.challenge.R;
@@ -54,6 +55,8 @@ public abstract class BingThumbnailAdapter extends RecyclerView.Adapter<BingThum
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                Toast.makeText(activity, "Copied to clipboard", Toast.LENGTH_SHORT).show();
+
                 copyImageUrlToClipboard(position);
                 return true;
             }
