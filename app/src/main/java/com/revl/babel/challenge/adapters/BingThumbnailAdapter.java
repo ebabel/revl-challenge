@@ -43,13 +43,13 @@ public abstract class BingThumbnailAdapter extends RecyclerView.Adapter<BingThum
     }
 
     @Override
-    public void onBindViewHolder(final BingThumbnailViewHolder holder, final int position) {
+    public void onBindViewHolder(final BingThumbnailViewHolder holder, int position) {
         holder.bind(images.get(position));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showFullImage(position, view);
+                showFullImage(holder.getAdapterPosition(), view);
             }
         });
 
@@ -58,7 +58,7 @@ public abstract class BingThumbnailAdapter extends RecyclerView.Adapter<BingThum
             public boolean onLongClick(View view) {
                 Toast.makeText(activity, "Copied to clipboard", Toast.LENGTH_SHORT).show();
 
-                copyImageUrlToClipboard(position);
+                copyImageUrlToClipboard(holder.getAdapterPosition());
                 return true;
             }
         });
