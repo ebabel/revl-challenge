@@ -2,4 +2,10 @@
     <string name="app_name">RevlChallenge</string>
     <string name="change_search_string">Change Search String</string>
     <string name="toggle_animated">Toggle Animated Images</string>
+    <string name="change_search">Change search</string>
+    <string name="cats">Cats</string>
+    <string name="go">Go</string>
+    <string name="search_includes_animations">Search includes animations</string>
+    <string name="normal_photos">Normal photos</string>
+    <string name="error">An error has occurred.</string>
 </resources>

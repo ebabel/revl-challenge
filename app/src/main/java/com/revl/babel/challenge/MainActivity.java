@@ -85,7 +85,7 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        Toast.makeText(MainActivity.this, "An error has occurred.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, R.string.error, Toast.LENGTH_SHORT).show();
 
                         e.printStackTrace();
                     }
@@ -116,7 +116,7 @@ public class MainActivity extends Activity {
     private void toggleAnimated() {
         includeAnimated = !includeAnimated;
 
-        Toast.makeText(this, includeAnimated ? "Search includes animations" : "Normal photos", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, includeAnimated ? getString(R.string.search_includes_animations) : getString(R.string.normal_photos), Toast.LENGTH_SHORT).show();
 
         clearAndRefetchImages();
     }
@@ -128,15 +128,19 @@ public class MainActivity extends Activity {
 
     private void showEditSearchDialog() {
         final EditText editText = new EditText(this);
-        editText.setHint("New search string");
+        editText.setText(RevlSharedPreferences.getSearchString());
+        editText.setHint(R.string.cats);
         new AlertDialog.Builder(this)
-                .setTitle("Change search")
+                .setTitle(R.string.change_search)
                 .setView(editText)
-        .setPositiveButton("Go", new DialogInterface.OnClickListener() {
+        .setPositiveButton(R.string.go, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                RevlSharedPreferences.saveSearchString(editText.getText().toString());
-                clearAndRefetchImages();
+                String searchString = editText.getText().toString();
+                if (!"".equals(searchString.trim())) {
+                    RevlSharedPreferences.saveSearchString(searchString);
+                    clearAndRefetchImages();
+                }
             }
         })
         .show();
