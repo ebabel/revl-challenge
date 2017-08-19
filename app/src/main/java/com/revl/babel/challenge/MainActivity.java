@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.revl.babel.challenge.adapters.BingThumbnailAdapter;
 import com.revl.babel.challenge.model.Images;
+import com.revl.babel.challenge.util.RevlSharedPreferences;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +33,6 @@ public class MainActivity extends Activity {
     private static final String SAFE_SEARCH = "Moderate";
     private static final String MARKET_EN_US = "en-us";
     private static final String ANIMATED_IMAGES = "AnimatedGif";
-    public static final String KITEBOARDING = "kiteboarding";
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     private BingThumbnailAdapter recyclerViewAdapter = new BingThumbnailAdapter(this) {
@@ -42,7 +42,6 @@ public class MainActivity extends Activity {
             loadImages(offset);
         }
     };
-    private String searchString = KITEBOARDING;
     private boolean includeAnimated;
     private Disposable serviceDisposable;
 
@@ -68,7 +67,7 @@ public class MainActivity extends Activity {
     private void loadImages(int offset) {
         serviceDisposable = RevlApplication.getInstance().getApi()
                 .searchForImages(
-                        searchString,
+                        RevlSharedPreferences.getSearchString(),
                         offset,
                         COUNT,
                         MARKET_EN_US,
@@ -116,7 +115,13 @@ public class MainActivity extends Activity {
 
     private void toggleAnimated() {
         includeAnimated = !includeAnimated;
+
         Toast.makeText(this, includeAnimated ? "Search includes animations" : "Normal photos", Toast.LENGTH_SHORT).show();
+
+        clearAndRefetchImages();
+    }
+
+    private void clearAndRefetchImages() {
         recyclerViewAdapter.getImages().clear();
         loadImages(0);
     }
@@ -130,9 +135,8 @@ public class MainActivity extends Activity {
         .setPositiveButton("Go", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                searchString = editText.getText().toString();
-                recyclerViewAdapter.getImages().clear();
-                loadImages(0);
+                RevlSharedPreferences.saveSearchString(editText.getText().toString());
+                clearAndRefetchImages();
             }
         })
         .show();
