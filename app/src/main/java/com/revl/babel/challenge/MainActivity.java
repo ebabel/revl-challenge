@@ -6,9 +6,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -47,14 +49,20 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupTransitionAnimation();
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerView.setAdapter(recyclerViewAdapter);
 
-
         loadImages(0);
+
+    }
+
+    private void setupTransitionAnimation() {
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setExitTransition(new Explode());
     }
 
     private void loadImages(int offset) {
@@ -78,6 +86,8 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
+                        Toast.makeText(MainActivity.this, "An error has occurred.", Toast.LENGTH_SHORT).show();
+
                         e.printStackTrace();
                     }
                 });

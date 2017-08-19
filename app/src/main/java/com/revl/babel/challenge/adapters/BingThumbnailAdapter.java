@@ -1,6 +1,7 @@
 package com.revl.babel.challenge.adapters;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -48,7 +49,7 @@ public abstract class BingThumbnailAdapter extends RecyclerView.Adapter<BingThum
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showFullImage(position);
+                showFullImage(position, view);
             }
         });
 
@@ -79,13 +80,12 @@ public abstract class BingThumbnailAdapter extends RecyclerView.Adapter<BingThum
 
     protected abstract void loadMoreItems(int offset);
 
-    private void showFullImage(int position) {
+    private void showFullImage(int position, View view) {
         Image image = images.get(position);
         Log.d(TAG, "BingThumbnailAdapter.showFullImage images = " + image);
         Intent intent = new Intent(activity, FullScreenImageActivity.class);
-        intent.putExtra(FullScreenImageActivity.THUMBNAIL_OF_IMAGE, image.thumbnailUrl());
-        intent.putExtra(FullScreenImageActivity.URL_OF_IMAGE, image.imageUrl());
-        activity.startActivity(intent);
+        intent.putExtra(FullScreenImageActivity.IMAGE_PARCEL, image);
+        activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity, view, "imageTransition").toBundle());
     }
 
     @Override

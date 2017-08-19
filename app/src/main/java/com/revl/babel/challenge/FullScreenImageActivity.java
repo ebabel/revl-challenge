@@ -1,11 +1,13 @@
 package com.revl.babel.challenge;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.revl.babel.challenge.model.Image;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -13,8 +15,8 @@ import butterknife.ButterKnife;
 
 public class FullScreenImageActivity extends Activity {
 
-    public static final String URL_OF_IMAGE = "URL_OF_IMAGE";
-    public static final String THUMBNAIL_OF_IMAGE = "THUMB_OF_IMAGE";
+    public static final String IMAGE_PARCEL = "IMAGE_PARCEL";
+
     @BindView(R.id.full_screen_image) ImageView imageView;
 
     @Override
@@ -25,9 +27,10 @@ public class FullScreenImageActivity extends Activity {
 
         ButterKnife.bind(this);
 
-        String imageUrl = getIntent().getStringExtra(URL_OF_IMAGE);
-        Glide.with(this).load(imageUrl)
-//                .placeholder(R.drawable.animated_progress)
+        Image image = getIntent().getParcelableExtra(IMAGE_PARCEL);
+        Glide.with(this).load(image.imageUrl())
                 .into(imageView);
+
+        imageView.getRootView().setBackgroundColor(Color.parseColor("#"+image.accentColor()));
     }
 }

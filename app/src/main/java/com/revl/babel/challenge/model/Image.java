@@ -1,12 +1,14 @@
 package com.revl.babel.challenge.model;
 
+import android.os.Parcelable;
+
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
 @AutoValue
-public abstract class Image {
+public abstract class Image implements Parcelable{
 
     public abstract String thumbnailUrl();
 
