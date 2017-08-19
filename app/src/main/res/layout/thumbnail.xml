@@ -6,6 +6,5 @@
     android:scaleType="centerCrop"
     xmlns:tools="http://schemas.android.com/tools"
     android:transitionName="imageTransition"
-    tools:background="@android:color/black"
     tools:layout_width="100dp"
     />

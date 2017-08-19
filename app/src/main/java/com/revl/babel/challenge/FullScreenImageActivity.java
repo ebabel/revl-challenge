@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.revl.babel.challenge.model.Image;
 
 import butterknife.BindView;
@@ -28,7 +29,11 @@ public class FullScreenImageActivity extends Activity {
         ButterKnife.bind(this);
 
         Image image = getIntent().getParcelableExtra(IMAGE_PARCEL);
-        Glide.with(this).load(image.imageUrl())
+        RequestOptions options = new RequestOptions();
+        options.error(R.drawable.broken_image);
+        Glide.with(this)
+                .load(image.imageUrl())
+                .apply(options)
                 .into(imageView);
 
         imageView.getRootView().setBackgroundColor(Color.parseColor("#"+image.accentColor()));
